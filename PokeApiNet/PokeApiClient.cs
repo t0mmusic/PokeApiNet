@@ -1,4 +1,5 @@
-﻿using PokeApiNet.Cache;
+﻿using Newtonsoft.Json;
+using PokeApiNet.Cache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,7 +29,7 @@ namespace PokeApiNet
         /// <summary>
         /// Default constructor
         /// </summary>
-        public PokeApiClient() : this(DefaultUserAgent) {}
+        public PokeApiClient() : this(DefaultUserAgent) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PokeApiClient"/> with 
@@ -53,7 +53,7 @@ namespace PokeApiNet
         /// <param name="messageHandler">Message handler implementation</param>
         public PokeApiClient(HttpMessageHandler messageHandler)
             : this(messageHandler, DefaultUserAgent)
-        {  }
+        { }
 
         /// <summary>
         /// Constructor with message handler and `User-Agent` header value
@@ -107,7 +107,7 @@ namespace PokeApiNet
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <exception cref="HttpRequestException">Something went wrong with your request</exception>
         /// <returns>An instance of the specified type with data from the request</returns>
-        private async Task<T> GetResourcesWithParamsAsync<T>(string apiParam, CancellationToken cancellationToken)
+        private async Task<T?> GetResourcesWithParamsAsync<T>(string apiParam, CancellationToken cancellationToken)
             where T : ResourceBase
         {
             // check for case sensitive API endpoint
@@ -126,7 +126,7 @@ namespace PokeApiNet
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <exception cref="NotSupportedException">Navigation url doesn't contain the resource id</exception>
         /// <returns>The object of the resource</returns>
-        private async Task<T> GetResourceByUrlAsync<T>(string url, CancellationToken cancellationToken)
+        private async Task<T?> GetResourceByUrlAsync<T>(string url, CancellationToken cancellationToken)
             where T : ResourceBase
         {
             // need to parse out the id in order to check if it's cached.
@@ -140,11 +140,14 @@ namespace PokeApiNet
                 throw new NotSupportedException($"Navigation url '{url}' is in an unexpected format");
             }
 
-            T resource = _resourceCache.Get<T>(id);
+            T? resource = _resourceCache.Get<T>(id);
             if (resource == null)
             {
                 resource = await GetResourcesWithParamsAsync<T>(resourceId, cancellationToken);
-                _resourceCache.Store<T>(resource);
+                if (resource != null)
+                {
+                    _resourceCache.Store(resource);
+                }
             }
 
             return resource;
@@ -156,7 +159,7 @@ namespace PokeApiNet
         /// <typeparam name="T">The type of resource</typeparam>
         /// <param name="id">Id of resource</param>
         /// <returns>The object of the resource</returns>
-        public async Task<T> GetResourceAsync<T>(int id) where T : ResourceBase
+        public async Task<T?> GetResourceAsync<T>(int id) where T : ResourceBase
         {
             return await GetResourceAsync<T>(id, CancellationToken.None);
         }
@@ -168,14 +171,17 @@ namespace PokeApiNet
         /// <param name="id">Id of resource</param>
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <returns>The object of the resource</returns>
-        public async Task<T> GetResourceAsync<T>(int id, CancellationToken cancellationToken)
+        public async Task<T?> GetResourceAsync<T>(int id, CancellationToken cancellationToken)
             where T : ResourceBase
         {
-            T resource = _resourceCache.Get<T>(id);
+            T? resource = _resourceCache.Get<T>(id);
             if (resource == null)
             {
                 resource = await GetResourcesWithParamsAsync<T>(id.ToString(), cancellationToken);
-                _resourceCache.Store(resource);
+                if (resource != null)
+                {
+                    _resourceCache.Store(resource);
+                }
             }
 
             return resource;
@@ -188,7 +194,7 @@ namespace PokeApiNet
         /// <typeparam name="T">The type of resource</typeparam>
         /// <param name="name">Name of resource</param>
         /// <returns>The object of the resource</returns>
-        public async Task<T> GetResourceAsync<T>(string name)
+        public async Task<T?> GetResourceAsync<T>(string name)
             where T : NamedApiResource
         {
             return await GetResourceAsync<T>(name, CancellationToken.None);
@@ -202,7 +208,7 @@ namespace PokeApiNet
         /// <param name="name">Name of resource</param>
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <returns>The object of the resource</returns>
-        public async Task<T> GetResourceAsync<T>(string name, CancellationToken cancellationToken)
+        public async Task<T?> GetResourceAsync<T>(string name, CancellationToken cancellationToken)
             where T : NamedApiResource
         {
             string sanitizedName = name
@@ -212,11 +218,14 @@ namespace PokeApiNet
 
             // Nidoran is interesting as the API wants 'nidoran-f' or 'nidoran-m'
 
-            T resource = _resourceCache.Get<T>(sanitizedName);
+            T? resource = _resourceCache.Get<T>(sanitizedName);
             if (resource == null)
             {
                 resource = await GetResourcesWithParamsAsync<T>(sanitizedName, cancellationToken);
-                _resourceCache.Store(resource);
+                if (resource != null)
+                {
+                    _resourceCache.Store(resource);
+                }
             }
 
             return resource;
@@ -228,10 +237,10 @@ namespace PokeApiNet
         /// <typeparam name="T">Navigation type</typeparam>
         /// <param name="collection">The collection of navigation objects</param>
         /// <returns>A list of resolved objects</returns>
-        public async Task<List<T>> GetResourceAsync<T>(IEnumerable<UrlNavigation<T>> collection)
+        public async Task<List<T?>> GetResourceAsync<T>(IEnumerable<UrlNavigation<T>> collection)
             where T : ResourceBase
         {
-            return await GetResourceAsync<T>(collection, CancellationToken.None);
+            return await GetResourceAsync(collection, CancellationToken.None);
         }
 
         /// <summary>
@@ -241,7 +250,7 @@ namespace PokeApiNet
         /// <param name="collection">The collection of navigation objects</param>
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <returns>A list of resolved objects</returns>
-        public async Task<List<T>> GetResourceAsync<T>(IEnumerable<UrlNavigation<T>> collection, CancellationToken cancellationToken)
+        public async Task<List<T?>> GetResourceAsync<T>(IEnumerable<UrlNavigation<T>> collection, CancellationToken cancellationToken)
             where T : ResourceBase
         {
             return (await Task.WhenAll(collection.Select(m => GetResourceAsync(m, cancellationToken)))).ToList();
@@ -253,7 +262,7 @@ namespace PokeApiNet
         /// <typeparam name="T">Navigation type</typeparam>
         /// <param name="urlResource">The single navigation object to resolve</param>
         /// <returns>A resolved object</returns>
-        public async Task<T> GetResourceAsync<T>(UrlNavigation<T> urlResource)
+        public async Task<T?> GetResourceAsync<T>(UrlNavigation<T> urlResource)
             where T : ResourceBase
         {
             return await GetResourceByUrlAsync<T>(urlResource.Url, CancellationToken.None);
@@ -266,7 +275,7 @@ namespace PokeApiNet
         /// <param name="urlResource">The single navigation object to resolve</param>
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <returns>A resolved object</returns>
-        public async Task<T> GetResourceAsync<T>(UrlNavigation<T> urlResource, CancellationToken cancellationToken)
+        public async Task<T?> GetResourceAsync<T>(UrlNavigation<T> urlResource, CancellationToken cancellationToken)
             where T : ResourceBase
         {
             return await GetResourceByUrlAsync<T>(urlResource.Url, cancellationToken);
@@ -323,7 +332,7 @@ namespace PokeApiNet
         /// <typeparam name="T">The type of resource</typeparam>
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <returns>The paged resource object</returns>
-        public Task<NamedApiResourceList<T>> GetNamedResourcePageAsync<T>(CancellationToken cancellationToken = default)
+        public Task<NamedApiResourceList<T>?> GetNamedResourcePageAsync<T>(CancellationToken cancellationToken = default)
             where T : NamedApiResource
         {
             string url = GetApiEndpointString<T>();
@@ -338,7 +347,7 @@ namespace PokeApiNet
         /// <param name="offset">Page offset</param>
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <returns>The paged resource object</returns>
-        public Task<NamedApiResourceList<T>> GetNamedResourcePageAsync<T>(int limit, int offset, CancellationToken cancellationToken = default)
+        public Task<NamedApiResourceList<T>?> GetNamedResourcePageAsync<T>(int limit, int offset, CancellationToken cancellationToken = default)
             where T : NamedApiResource
         {
             string url = GetApiEndpointString<T>();
@@ -374,14 +383,17 @@ namespace PokeApiNet
             } while (!cancellationToken.IsCancellationRequested && !isLastPage);
         }
 
-        private async Task<NamedApiResourceList<T>> InternalGetNamedResourcePageAsync<T>(string url, CancellationToken cancellationToken)
+        private async Task<NamedApiResourceList<T>?> InternalGetNamedResourcePageAsync<T>(string url, CancellationToken cancellationToken)
             where T : NamedApiResource
         {
             var resources = _resourceListCache.GetNamedResourceList<T>(url);
             if (resources == null)
             {
                 resources = await GetAsync<NamedApiResourceList<T>>(url, cancellationToken);
-                _resourceListCache.Store(url, resources);
+                if (resources != null)
+                {
+                    _resourceListCache.Store(url, resources);
+                }
             }
 
             return resources;
@@ -393,7 +405,7 @@ namespace PokeApiNet
         /// <typeparam name="T">The type of resource</typeparam>
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <returns>The paged resource object</returns>
-        public Task<ApiResourceList<T>> GetApiResourcePageAsync<T>(CancellationToken cancellationToken = default)
+        public Task<ApiResourceList<T>?> GetApiResourcePageAsync<T>(CancellationToken cancellationToken = default)
             where T : ApiResource
         {
             string url = GetApiEndpointString<T>();
@@ -408,7 +420,7 @@ namespace PokeApiNet
         /// <param name="offset">Page offset</param>
         /// <param name="cancellationToken">Cancellation token for the request; not utilized if data has been cached</param>
         /// <returns>The paged resource object</returns>
-        public Task<ApiResourceList<T>> GetApiResourcePageAsync<T>(int limit, int offset, CancellationToken cancellationToken = default)
+        public Task<ApiResourceList<T>?> GetApiResourcePageAsync<T>(int limit, int offset, CancellationToken cancellationToken = default)
             where T : ApiResource
         {
             string url = GetApiEndpointString<T>();
@@ -444,14 +456,17 @@ namespace PokeApiNet
             } while (!cancellationToken.IsCancellationRequested && !isLastPage);
         }
 
-        private async Task<ApiResourceList<T>> InternalGetApiResourcePageAsync<T>(string url, CancellationToken cancellationToken)
+        private async Task<ApiResourceList<T>?> InternalGetApiResourcePageAsync<T>(string url, CancellationToken cancellationToken)
             where T : ApiResource
         {
             var resources = _resourceListCache.GetApiResourceList<T>(url);
             if (resources == null)
             {
                 resources = await GetAsync<ApiResourceList<T>>(url, cancellationToken);
-                _resourceListCache.Store(url, resources);
+                if (resources != null)
+                {
+                    _resourceListCache.Store(url, resources);
+                }
             }
 
             return resources;
@@ -466,21 +481,14 @@ namespace PokeApiNet
             using var response = await _client.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken);
 
             response.EnsureSuccessStatusCode();
-            return DeserializeStream<T>(await response.Content.ReadAsStreamAsync());
-        }
+            var content = await response.Content.ReadAsStringAsync();
 
-        /// <summary>
-        /// Handles deserialization of a given stream to a given type
-        /// </summary>
-        private T? DeserializeStream<T>(System.IO.Stream stream)
-        {
-            using var sr = new System.IO.StreamReader(stream);
-            return JsonSerializer.Deserialize<T>(stream, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower });
+            return JsonConvert.DeserializeObject<T>(content);
         }
 
         private static string AddPaginationParamsToUrl(string uri, int? limit = null, int? offset = null)
         {
-            var queryParameters = new Dictionary<string, string>();
+            var queryParameters = new Dictionary<string, string?>();
 
             // TODO consider to always set the limit parameter when not present to the default "20"
             // in order to have a single cached resource list for requests with explicit or implicit default limit
@@ -488,7 +496,7 @@ namespace PokeApiNet
             {
                 queryParameters.Add(nameof(limit), limit.Value.ToString());
             }
-            
+
             if (offset.HasValue)
             {
                 queryParameters.Add(nameof(offset), offset.Value.ToString());
