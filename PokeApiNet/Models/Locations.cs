@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PokeApiNet
 {
@@ -8,10 +9,7 @@ namespace PokeApiNet
     /// </summary>
     public class Location : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "location";
 
@@ -33,7 +31,7 @@ namespace PokeApiNet
         /// <summary>
         /// A list of game indices relevent to this location by generation.
         /// </summary>
-        [JsonPropertyName("game_indices")]
+        [JsonProperty("game_indices")]
         public List<GenerationGameIndex> GameIndices { get; set; }
 
         /// <summary>
@@ -48,10 +46,7 @@ namespace PokeApiNet
     /// </summary>
     public class LocationArea : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "location-area";
 
@@ -63,7 +58,7 @@ namespace PokeApiNet
         /// <summary>
         /// The internal id of an API resource within game data.
         /// </summary>
-        [JsonPropertyName("game_index")]
+        [JsonProperty("game_index")]
         public int GameIndex { get; set; }
 
         /// <summary>
@@ -71,7 +66,7 @@ namespace PokeApiNet
         /// area and how likely the method will occur depending on the version
         /// of the game.
         /// </summary>
-        [JsonPropertyName("encounter_method_rates")]
+        [JsonProperty("encounter_method_rates")]
         public List<EncounterMethodRate> EncounterMethodRates { get; set; }
 
         /// <summary>
@@ -88,32 +83,32 @@ namespace PokeApiNet
         /// A list of Pokémon that can be encountered in this area along with
         /// version specific details about the encounter.
         /// </summary>
-        [JsonPropertyName("pokemon_encounters")]
+        [JsonProperty("pokemon_encounters")]
         public List<PokemonEncounter> PokemonEncounters { get; set; }
     }
 
     /// <summary>
     /// A mapping between an encounter method and the version that applies
     /// </summary>
-    public class EncounterMethodRate
+    public class EncounterMethodRate : UnorderedApiResource
     {
         /// <summary>
         /// The method in which Pokémon may be encountered in an area.
         /// </summary>
-        [JsonPropertyName("encounter_method")]
+        [JsonProperty("encounter_method")]
         public NamedApiResource<EncounterMethod> EncounterMethod { get; set; }
 
         /// <summary>
         /// The chance of the encounter to occur on a version of the game.
         /// </summary>
-        [JsonPropertyName("version_details")]
+        [JsonProperty("version_details")]
         public List<EncounterVersionDetails> VersionDetails { get; set; }
     }
 
     /// <summary>
     /// The details for an encounter with the version
     /// </summary>
-    public class EncounterVersionDetails
+    public class EncounterVersionDetails : UnorderedApiResource
     {
         /// <summary>
         /// The chance of an encounter to occur.
@@ -130,7 +125,7 @@ namespace PokeApiNet
     /// <summary>
     /// A Pokémon encounter and the version that encounter can happen
     /// </summary>
-    public class PokemonEncounter
+    public class PokemonEncounter : UnorderedApiResource
     {
         /// <summary>
         /// The Pokémon being encountered.
@@ -141,7 +136,7 @@ namespace PokeApiNet
         /// A list of versions and encounters with Pokémon that might happen
         /// in the referenced location area.
         /// </summary>
-        [JsonPropertyName("version_details")]
+        [JsonProperty("version_details")]
         public List<VersionEncounterDetail> VersionDetails { get; set; }
     }
 
@@ -151,10 +146,7 @@ namespace PokeApiNet
     /// </summary>
     public class PalParkArea : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "pal-park-area";
 
@@ -172,20 +164,20 @@ namespace PokeApiNet
         /// A list of Pokémon encountered in thi pal park area along with
         /// details.
         /// </summary>
-        [JsonPropertyName("pokemon_encounters")]
+        [JsonProperty("pokemon_encounters")]
         public List<PalParkEncounterSpecies> PokemonEncounters { get; set; }
     }
 
     /// <summary>
     /// Information for an encounter in PalPark
     /// </summary>
-    public class PalParkEncounterSpecies
+    public class PalParkEncounterSpecies : UnorderedApiResource
     {
         /// <summary>
         /// The base score given to the player when this Pokémon is caught
         /// during a pal park run.
         /// </summary>
-        [JsonPropertyName("base_score")]
+        [JsonProperty("base_score")]
         public int BaseScore { get; set; }
 
         /// <summary>
@@ -196,7 +188,7 @@ namespace PokeApiNet
         /// <summary>
         /// The Pokémon species being encountered.
         /// </summary>
-        [JsonPropertyName("pokemon_species")]
+        [JsonProperty("pokemon_species")]
         public NamedApiResource<PokemonSpecies> PokemonSpecies { get; set; }
     }
 
@@ -207,10 +199,7 @@ namespace PokeApiNet
     /// </summary>
     public class Region : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "region";
 
@@ -232,7 +221,7 @@ namespace PokeApiNet
         /// <summary>
         /// The generation this region was introduced in.
         /// </summary>
-        [JsonPropertyName("main_generation")]
+        [JsonProperty("main_generation")]
         public NamedApiResource<Generation> MainGeneration { get; set; }
 
         /// <summary>
@@ -243,7 +232,7 @@ namespace PokeApiNet
         /// <summary>
         /// A list of version groups where this region can be visited.
         /// </summary>
-        [JsonPropertyName("version_groups")]
+        [JsonProperty("version_groups")]
         public List<NamedApiResource<VersionGroup>> VersionGroups { get; set; }
     }
 }

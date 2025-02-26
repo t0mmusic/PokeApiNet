@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PokeApiNet
 {
@@ -10,10 +11,6 @@ namespace PokeApiNet
     /// </summary>
     public class Item : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
 
         internal new static string ApiEndpoint { get; } = "item";
 
@@ -30,13 +27,13 @@ namespace PokeApiNet
         /// <summary>
         /// The power of the move Fling when used with this item.
         /// </summary>
-        [JsonPropertyName("fling_power")]
+        [JsonProperty("fling_power")]
         public int? FlingPower { get; set; }
 
         /// <summary>
         /// The effect of the move Fling when used with this item.
         /// </summary>
-        [JsonPropertyName("fling_effect")]
+        [JsonProperty("fling_effect")]
         public NamedApiResource<ItemFlingEffect> FlingEffect { get; set; }
 
         /// <summary>
@@ -52,19 +49,19 @@ namespace PokeApiNet
         /// <summary>
         /// The effect of this ability listed in different languages.
         /// </summary>
-        [JsonPropertyName("effect_entries")]
+        [JsonProperty("effect_entries")]
         public List<VerboseEffect> EffectEntries { get; set; }
 
         /// <summary>
         /// The flavor text of this ability listed in different languages.
         /// </summary>
-        [JsonPropertyName("flavor_text_entries")]
+        [JsonProperty("flavor_text_entries")]
         public List<VersionGroupFlavorText> FlavorGroupTextEntries { get; set; }
 
         /// <summary>
         /// A list of game indices relevent to this item by generation.
         /// </summary>
-        [JsonPropertyName("game_indices")]
+        [JsonProperty("game_indices")]
         public List<GenerationGameIndex> GameIndices { get; set; }
 
         /// <summary>
@@ -80,13 +77,13 @@ namespace PokeApiNet
         /// <summary>
         /// A list of Pokémon that might be found in the wild holding this item.
         /// </summary>
-        [JsonPropertyName("held_by_pokemon")]
+        [JsonProperty("held_by_pokemon")]
         public List<ItemHolderPokemon> HeldByPokemon { get; set; }
 
         /// <summary>
         /// An evolution chain this item requires to produce a baby during mating.
         /// </summary>
-        [JsonPropertyName("baby_trigger_for")]
+        [JsonProperty("baby_trigger_for")]
         public ApiResource<EvolutionChain> BabyTriggerFor { get; set; }
 
         /// <summary>
@@ -98,7 +95,7 @@ namespace PokeApiNet
     /// <summary>
     /// The default description of this item.
     /// </summary>
-    public class ItemSprites
+    public class ItemSprites : UnorderedApiResource
     {
         /// <summary>
         /// The default description of this item.
@@ -109,7 +106,7 @@ namespace PokeApiNet
     /// <summary>
     /// Information for which Pokémon holds an item
     /// </summary>
-    public class ItemHolderPokemon
+    public class ItemHolderPokemon : UnorderedApiResource
     {
         /// <summary>
         /// The Pokémon that holds this item.
@@ -120,14 +117,14 @@ namespace PokeApiNet
         /// <summary>
         /// The details for the version that this item is held in by the Pokémon.
         /// </summary>
-        [JsonPropertyName("version_details")]
+        [JsonProperty("version_details")]
         public List<ItemHolderPokemonVersionDetail> VersionDetails { get; set; }
     }
 
     /// <summary>
     /// Information for which Pokémon hold an item
     /// </summary>
-    public class ItemHolderPokemonVersionDetail
+    public class ItemHolderPokemonVersionDetail : UnorderedApiResource
     {
         /// <summary>
         /// How often this Pokémon holds this item in this version.
@@ -146,10 +143,7 @@ namespace PokeApiNet
     /// </summary>
     public class ItemAttribute : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "item-attribute";
 
@@ -179,10 +173,7 @@ namespace PokeApiNet
     /// </summary>
     public class ItemCategory : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "item-category";
 
@@ -212,10 +203,7 @@ namespace PokeApiNet
     /// </summary>
     public class ItemFlingEffect : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "item-fling-effect";
 
@@ -227,7 +215,7 @@ namespace PokeApiNet
         /// <summary>
         /// The result of this fling effect listed in different languages.
         /// </summary>
-        [JsonPropertyName("effect_entries")]
+        [JsonProperty("effect_entries")]
         public List<Effects> EffectEntries { get; set; }
 
         /// <summary>
@@ -241,10 +229,6 @@ namespace PokeApiNet
     /// </summary>
     public class ItemPocket : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
 
         internal new static string ApiEndpoint { get; } = "item-pocket";
 

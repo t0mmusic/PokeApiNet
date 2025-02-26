@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PokeApiNet
 {
@@ -10,19 +11,19 @@ namespace PokeApiNet
         /// <summary>
         /// The total number of resources available from this API
         /// </summary>
-        [JsonPropertyName("count")]
+        [JsonProperty("count")]
         public int Count { get; set; }
 
         /// <summary>
         /// The URL for the next page in the list.
         /// </summary>
-        [JsonPropertyName("next")]
+        [JsonProperty("next")]
         public string? Next { get; set; }
 
         /// <summary>
         /// The URL for the previous page in the list.
         /// </summary>
-        [JsonPropertyName("previous")]
+        [JsonProperty("previous")]
         public string? Previous { get; set; }
     }
 
@@ -35,7 +36,7 @@ namespace PokeApiNet
         /// <summary>
         /// A list of un-named API resources.
         /// </summary>
-        [JsonPropertyName("results")]
+        [JsonProperty("results")]
         public List<ApiResource<T>> Results { get; set; }
     }
 
@@ -48,7 +49,7 @@ namespace PokeApiNet
         /// <summary>
         /// A list of named API resources.
         /// </summary>
-        [JsonPropertyName("results")]
+        [JsonProperty("results")]
         public List<NamedApiResource<T>> Results { get; set; }
     }
 }

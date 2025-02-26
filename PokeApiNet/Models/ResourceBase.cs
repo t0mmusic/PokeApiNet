@@ -1,4 +1,9 @@
-﻿namespace PokeApiNet
+﻿
+
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace PokeApiNet
 {
     /// <summary>
     /// The base class for classes that have an API endpoint. These
@@ -9,7 +14,8 @@
         /// <summary>
         /// The identifier for this resource
         /// </summary>
-        public abstract int Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         /// <summary>
         /// The endpoint string for this resource
@@ -31,6 +37,18 @@
         /// The name of this resource
         /// </summary>
         public abstract string Name { get; set; }
+    }
+
+    /// <summary>
+    /// The base class for API resources that don't have a set Id property
+    /// </summary>
+    public abstract class UnorderedApiResource
+    {
+        /// <summary>
+        /// The identifier for this resource
+        /// </summary>
+        [Key]
+        public Guid Id { get; set; } = Guid.NewGuid();
     }
 
     /// <summary>

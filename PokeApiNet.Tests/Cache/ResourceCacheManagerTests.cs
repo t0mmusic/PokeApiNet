@@ -174,8 +174,6 @@ public class ResourceCacheManagerTests
 
     class TestClass : ResourceBase
     {
-        public override int Id { get; set; } = 1;
-
         public new static string ApiEndpoint => "";
     };
 }

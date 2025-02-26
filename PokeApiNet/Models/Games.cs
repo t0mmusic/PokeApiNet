@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PokeApiNet
 {
@@ -10,10 +11,7 @@ namespace PokeApiNet
     /// </summary>
     public class Generation : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "generation";
 
@@ -35,7 +33,7 @@ namespace PokeApiNet
         /// <summary>
         /// The main region travelled in this generation.
         /// </summary>
-        [JsonPropertyName("main_region")]
+        [JsonProperty("main_region")]
         public NamedApiResource<Region> MainRegion { get; set; }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace PokeApiNet
         /// A list of Pokemon species that were introduced in this
         /// generation.
         /// </summary>
-        [JsonPropertyName("pokemon_species")]
+        [JsonProperty("pokemon_species")]
         public List<NamedApiResource<PokemonSpecies>> PokemonSpecies { get; set; }
 
         /// <summary>
@@ -59,7 +57,7 @@ namespace PokeApiNet
         /// A list of version groups that were introduced in this
         /// generation.
         /// </summary>
-        [JsonPropertyName("version_groups")]
+        [JsonProperty("version_groups")]
         public List<NamedApiResource<VersionGroup>> VersionGroups { get; set; }
     }
 
@@ -71,10 +69,7 @@ namespace PokeApiNet
     /// </summary>
     public class Pokedex : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "pokedex";
 
@@ -86,7 +81,7 @@ namespace PokeApiNet
         /// <summary>
         /// Whether or not this Pokédex originated in the main series of the video games.
         /// </summary>
-        [JsonPropertyName("is_main_series")]
+        [JsonProperty("is_main_series")]
         public bool IsMainSeries { get; set; }
 
         /// <summary>
@@ -102,7 +97,7 @@ namespace PokeApiNet
         /// <summary>
         /// A list of Pokémon catalogued in this Pokédex and their indexes.
         /// </summary>
-        [JsonPropertyName("pokemon_entries")]
+        [JsonProperty("pokemon_entries")]
         public List<PokemonEntry> PokemonEntries { get; set; }
 
         /// <summary>
@@ -113,25 +108,25 @@ namespace PokeApiNet
         /// <summary>
         /// A list of version groups this Pokédex is relevant to.
         /// </summary>
-        [JsonPropertyName("version_groups")]
+        [JsonProperty("version_groups")]
         public List<NamedApiResource<VersionGroup>> VersionGroups { get; set; }
     }
 
     /// <summary>
     /// The entry information
     /// </summary>
-    public class PokemonEntry
+    public class PokemonEntry : UnorderedApiResource
     {
         /// <summary>
         /// The index of this Pokémon species entry within the Pokédex.
         /// </summary>
-        [JsonPropertyName("entry_number")]
+        [JsonProperty("entry_number")]
         public int EntryNumber { get; set; }
 
         /// <summary>
         /// The Pokémon species being encountered.
         /// </summary>
-        [JsonPropertyName("pokemon_species")]
+        [JsonProperty("pokemon_species")]
         public NamedApiResource<PokemonSpecies> PokemonSpecies { get; set; }
     }
 
@@ -140,10 +135,7 @@ namespace PokeApiNet
     /// </summary>
     public class Version : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "version";
 
@@ -160,7 +152,7 @@ namespace PokeApiNet
         /// <summary>
         /// The version group this version belongs to.
         /// </summary>
-        [JsonPropertyName("version_group")]
+        [JsonProperty("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup { get; set; }
     }
 
@@ -169,10 +161,6 @@ namespace PokeApiNet
     /// </summary>
     public class VersionGroup : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
 
         internal new static string ApiEndpoint { get; } = "version-group";
 
@@ -196,7 +184,7 @@ namespace PokeApiNet
         /// A list of methods in which Pokémon can learn moves in
         /// this version group.
         /// </summary>
-        [JsonPropertyName("move_learn_methods")]
+        [JsonProperty("move_learn_methods")]
         public List<NamedApiResource<MoveLearnMethod>> MoveLearnMethods { get; set; }
 
         /// <summary>

@@ -8,10 +8,6 @@ namespace PokeApiNet
     /// </summary>
     public class EncounterMethod : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
 
         internal new static string ApiEndpoint { get; } = "encounter-method";
 
@@ -38,10 +34,6 @@ namespace PokeApiNet
     /// </summary>
     public class EncounterCondition : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
 
         internal new static string ApiEndpoint { get; } = "encounter-condition";
 
@@ -68,10 +60,6 @@ namespace PokeApiNet
     /// </summary>
     public class EncounterConditionValue : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
 
         internal new static string ApiEndpoint { get; } = "encounter-condition-value";
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PokeApiNet
 {
@@ -7,10 +8,7 @@ namespace PokeApiNet
     /// </summary>
     public class Language : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
+
 
         internal new static string ApiEndpoint { get; } = "language";
 
@@ -56,7 +54,7 @@ namespace PokeApiNet
     /// <summary>
     /// The description for an API resource
     /// </summary>
-    public class Descriptions
+    public class Descriptions : UnorderedApiResource
     {
         /// <summary>
         /// The localized description for an API resource in a
@@ -73,7 +71,7 @@ namespace PokeApiNet
     /// <summary>
     /// The effect of an API resource
     /// </summary>
-    public class Effects
+    public class Effects : UnorderedApiResource
     {
         /// <summary>
         /// The localized effect text for an API resource in a
@@ -90,25 +88,25 @@ namespace PokeApiNet
     /// <summary>
     /// Encounter information for a Pokémon
     /// </summary>
-    public class Encounter
+    public class Encounter : UnorderedApiResource
     {
         /// <summary>
         /// The lowest level the Pokémon could be encountered at.
         /// </summary>
-        [JsonPropertyName("min_level")]
+        [JsonProperty("min_level")]
         public int MinLevel { get; set; }
 
         /// <summary>
         /// The highest level the Pokémon could be encountered at.
         /// </summary>
-        [JsonPropertyName("max_level")]
+        [JsonProperty("max_level")]
         public int MaxLevel { get; set; }
 
         /// <summary>
         /// A list of condition values that must be in effect for this
         /// encounter to occur.
         /// </summary>
-        [JsonPropertyName("condition_values")]
+        [JsonProperty("condition_values")]
         public List<NamedApiResource<EncounterConditionValue>> ConditionValues { get; set; }
 
         /// <summary>
@@ -125,12 +123,12 @@ namespace PokeApiNet
     /// <summary>
     /// A flavor text entry for an API resource
     /// </summary>
-    public class FlavorTexts
+    public class FlavorTexts : UnorderedApiResource
     {
         /// <summary>
         /// The localized flavor text for an API resource in a specific language.
         /// </summary>
-        [JsonPropertyName("flavor_text")]
+        [JsonProperty("flavor_text")]
         public string FlavorText { get; set; }
 
         /// <summary>
@@ -142,12 +140,12 @@ namespace PokeApiNet
     /// <summary>
     /// The index information for a generation game
     /// </summary>
-    public class GenerationGameIndex
+    public class GenerationGameIndex : UnorderedApiResource
     {
         /// <summary>
         /// The internal id of an API resource within game data.
         /// </summary>
-        [JsonPropertyName("game_index")]
+        [JsonProperty("game_index")]
         public int GameIndex { get; set; }
 
         /// <summary>
@@ -159,7 +157,7 @@ namespace PokeApiNet
     /// <summary>
     /// The version detail information for a machine
     /// </summary>
-    public class MachineVersionDetail
+    public class MachineVersionDetail : UnorderedApiResource
     {
         /// <summary>
         /// The machine that teaches a move from an item.
@@ -169,14 +167,14 @@ namespace PokeApiNet
         /// <summary>
         /// The version group of this specific machine.
         /// </summary>
-        [JsonPropertyName("version_group")]
+        [JsonProperty("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup { get; set; }
     }
 
     /// <summary>
     /// A name with language information
     /// </summary>
-    public class Names
+    public class Names : UnorderedApiResource
     {
         /// <summary>
         /// The localized name for an API resource in a specific language.
@@ -221,7 +219,7 @@ namespace PokeApiNet
     /// <summary>
     /// The long text for effect text entries
     /// </summary>
-    public class VerboseEffect
+    public class VerboseEffect : UnorderedApiResource
     {
         /// <summary>
         /// The localized effect text for an API resource in a
@@ -232,7 +230,7 @@ namespace PokeApiNet
         /// <summary>
         /// The localized effect text in brief.
         /// </summary>
-        [JsonPropertyName("short_effect")]
+        [JsonProperty("short_effect")]
         public string ShortEffect { get; set; }
 
         /// <summary>
@@ -244,7 +242,7 @@ namespace PokeApiNet
     /// <summary>
     /// The detailed information for version encounter entries
     /// </summary>
-    public class VersionEncounterDetail
+    public class VersionEncounterDetail : UnorderedApiResource
     {
         /// <summary>
         /// The game version this encounter happens in.
@@ -254,25 +252,25 @@ namespace PokeApiNet
         /// <summary>
         /// The total percentage of all encounter potential.
         /// </summary>
-        [JsonPropertyName("max_chance")]
+        [JsonProperty("max_chance")]
         public int MaxChance { get; set; }
 
         /// <summary>
         /// A list of encounters and their specifics.
         /// </summary>
-        [JsonPropertyName("encounter_details")]
+        [JsonProperty("encounter_details")]
         public List<Encounter> EncounterDetails { get; set; }
     }
 
     /// <summary>
     /// The index information for games
     /// </summary>
-    public class VersionGameIndex
+    public class VersionGameIndex : UnorderedApiResource
     {
         /// <summary>
         /// The internal id of an API resource within game data.
         /// </summary>
-        [JsonPropertyName("game_index")]
+        [JsonProperty("game_index")]
         public int GameIndex { get; set; }
 
         /// <summary>
@@ -284,7 +282,7 @@ namespace PokeApiNet
     /// <summary>
     /// The version group flavor text information
     /// </summary>
-    public class VersionGroupFlavorText
+    public class VersionGroupFlavorText : UnorderedApiResource
     {
         /// <summary>
         /// The localized name for an API resource in a specific language.
@@ -299,7 +297,7 @@ namespace PokeApiNet
         /// <summary>
         /// The version group which uses this flavor text.
         /// </summary>
-        [JsonPropertyName("version_group")]
+        [JsonProperty("version_group")]
         public NamedApiResource<VersionGroup> VersionGroup { get; set; }
     }
 }

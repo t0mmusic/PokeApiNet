@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PokeApiNet
 {
@@ -8,10 +9,6 @@ namespace PokeApiNet
     /// </summary>
     public class Berry : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
 
         internal new static string ApiEndpoint { get; } = "berry";
 
@@ -25,21 +22,21 @@ namespace PokeApiNet
         /// Berry trees go through four of these growth stages
         /// before they can be picked.
         /// </summary>
-        [JsonPropertyName("growth_time")]
+        [JsonProperty("growth_time")]
         public int GrowthTime { get; set; }
 
         /// <summary>
         /// The maximum number of these berries that can grow
         /// on one tree in Generation IV.
         /// </summary>
-        [JsonPropertyName("max_harvest")]
+        [JsonProperty("max_harvest")]
         public int MaxHarvest { get; set; }
 
         /// <summary>
         /// The power of the move "Natural Gift" when used with
         /// this Berry.
         /// </summary>
-        [JsonPropertyName("natural_gift_power")]
+        [JsonProperty("natural_gift_power")]
         public int NaturalGiftPower { get; set; }
 
         /// <summary>
@@ -58,7 +55,7 @@ namespace PokeApiNet
         /// it grows. A higher rate means the soil dries out
         /// more quickly.
         /// </summary>
-        [JsonPropertyName("soil_dryness")]
+        [JsonProperty("soil_dryness")]
         public int SoilDryness { get; set; }
 
         /// <summary>
@@ -84,14 +81,14 @@ namespace PokeApiNet
         /// The type inherited by "Natural Gift" when used with
         /// this Berry.
         /// </summary>
-        [JsonPropertyName("natural_gift_type")]
+        [JsonProperty("natural_gift_type")]
         public NamedApiResource<Type> NaturalGiftType { get; set; }
     }
 
     /// <summary>
     /// The potency and flavor that a berry can have
     /// </summary>
-    public class BerryFlavorMap
+    public class BerryFlavorMap : UnorderedApiResource
     {
         /// <summary>
         /// How powerful the referenced flavor is for this
@@ -110,11 +107,6 @@ namespace PokeApiNet
     /// </summary>
     public class BerryFirmness : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
-
         internal new static string ApiEndpoint { get; } = "berry-firmness";
 
         /// <summary>
@@ -140,11 +132,6 @@ namespace PokeApiNet
     /// </summary>
     public class BerryFlavor : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
-
         internal new static string ApiEndpoint { get; } = "berry-flavor";
 
         /// <summary>
@@ -161,7 +148,7 @@ namespace PokeApiNet
         /// The contest type that correlates with this berry
         /// flavor.
         /// </summary>
-        [JsonPropertyName("contest_type")]
+        [JsonProperty("contest_type")]
         public NamedApiResource<ContestType> ContestType { get; set; }
 
         /// <summary>
@@ -173,7 +160,7 @@ namespace PokeApiNet
     /// <summary>
     /// The potency and flavor that a berry can have
     /// </summary>
-    public class FlavorBerryMap
+    public class FlavorBerryMap : UnorderedApiResource
     {
         /// <summary>
         /// How powerful this referenced flavor is for this

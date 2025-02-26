@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PokeApiNet
 {
@@ -8,11 +9,6 @@ namespace PokeApiNet
     /// </summary>
     public class ContestType : NamedApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
-
         internal new static string ApiEndpoint { get; } = "contest-type";
 
         /// <summary>
@@ -24,7 +20,7 @@ namespace PokeApiNet
         /// The berry flavor that correlates with this contest
         /// type.
         /// </summary>
-        [JsonPropertyName("berry_flavor")]
+        [JsonProperty("berry_flavor")]
         public NamedApiResource<BerryFlavor> BerryFlavor { get; set; }
 
         /// <summary>
@@ -37,7 +33,7 @@ namespace PokeApiNet
     /// <summary>
     /// The name of the context
     /// </summary>
-    public class ContestName
+    public class ContestName : UnorderedApiResource
     {
         /// <summary>
         /// The name for this contest.
@@ -61,10 +57,6 @@ namespace PokeApiNet
     /// </summary>
     public class ContestEffect : ApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
 
         internal new static string ApiEndpoint { get; } = "contest-effect";
 
@@ -84,14 +76,14 @@ namespace PokeApiNet
         /// The result of this contest effect listed in
         /// different languages.
         /// </summary>
-        [JsonPropertyName("effect_entries")]
+        [JsonProperty("effect_entries")]
         public List<Effects> EffectEntries { get; set; }
 
         /// <summary>
         /// The flavor text of this contest effect listed in
         /// different languages.
         /// </summary>
-        [JsonPropertyName("flavor_text_entries")]
+        [JsonProperty("flavor_text_entries")]
         public List<FlavorTexts> FlavorTextEntries { get; set; }
     }
 
@@ -101,11 +93,6 @@ namespace PokeApiNet
     /// </summary>
     public class SuperContestEffect : ApiResource
     {
-        /// <summary>
-        /// The identifier for this resource.
-        /// </summary>
-        public override int Id { get; set; }
-
         internal new static string ApiEndpoint { get; } = "super-contest-effect";
 
         /// <summary>
@@ -117,7 +104,7 @@ namespace PokeApiNet
         /// The flavor text of this super contest effect listed
         /// in different languages.
         /// </summary>
-        [JsonPropertyName("flavor_text_entries")]
+        [JsonProperty("flavor_text_entries")]
         public List<FlavorTexts> FlavorTextEntries { get; set; }
 
         /// <summary>
