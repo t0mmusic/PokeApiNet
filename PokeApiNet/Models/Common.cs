@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace PokeApiNet
@@ -49,6 +51,7 @@ namespace PokeApiNet
     /// A reference to an API object that does not have a `Name` property
     /// </summary>
     /// <typeparam name="T">The type of resource</typeparam>
+    [NotMapped]
     public class ApiResource<T> : UrlNavigation<T> where T : ResourceBase { }
 
     /// <summary>
@@ -191,6 +194,7 @@ namespace PokeApiNet
     /// A reference to an API resource that has a `Name` property
     /// </summary>
     /// <typeparam name="T">The type of reference</typeparam>
+    [NotMapped]
     public class NamedApiResource<T> : UrlNavigation<T> where T : ResourceBase
     {
         /// <summary>
@@ -203,7 +207,7 @@ namespace PokeApiNet
     /// Class representing data from a previous generation.
     /// </summary>
     /// <typeparam name="TData">The type of the data.</typeparam>
-    public class PastGenerationData<TData>
+    public class PastGenerationData<TData> : UnorderedApiResource
     {
         /// <summary>
         /// The final generation in which the Pokemon had the given data.

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PokeApiNet.Cache;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace PokeApiNet
         /// </summary>
         public static readonly ProductHeaderValue DefaultUserAgent = GetDefaultUserAgent();
         private readonly HttpClient _client;
+        private readonly DbContext? dbContext;
         private readonly Uri _baseUri = new Uri("https://pokeapi.co/api/v2/");
         private readonly ResourceCacheManager _resourceCache = new ResourceCacheManager();
         private readonly ResourceListCacheManager _resourceListCache = new ResourceListCacheManager();
@@ -80,6 +82,13 @@ namespace PokeApiNet
         public PokeApiClient(HttpClient httpClient)
         {
             _client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _client.BaseAddress = _baseUri;
+        }
+
+        public PokeApiClient(HttpClient httpClient, DbContext dbContext)
+        {
+            _client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            this.dbContext = dbContext;
             _client.BaseAddress = _baseUri;
         }
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace PokeApiNet
@@ -441,6 +443,28 @@ namespace PokeApiNet
         /// The nature causing the change.
         /// </summary>
         public NamedApiResource<Nature> Nature { get; set; }
+
+        /// <summary>
+        /// Foreign key for Increase list in NaturePokeathlonStatAffectSets.
+        /// </summary>
+        public Guid? IncreaseSetId { get; set; }
+
+        /// <summary>
+        /// Navigation property to the Increase list.
+        /// </summary>
+        [ForeignKey("IncreaseSetId")]
+        public NaturePokeathlonStatAffectSets IncreaseSet { get; set; }
+
+        /// <summary>
+        /// Foreign key for Decrease list in NaturePokeathlonStatAffectSets.
+        /// </summary>
+        public Guid? DecreaseSetId { get; set; }
+
+        /// <summary>
+        /// Navigation property to the Decrease list.
+        /// </summary>
+        [ForeignKey("DecreaseSetId")]
+        public NaturePokeathlonStatAffectSets DecreaseSet { get; set; }
     }
 
     /// <summary>
@@ -765,7 +789,7 @@ namespace PokeApiNet
         /// <summary>
         /// Other Pokémon sprites
         /// </summary>
-        public class OtherSprites
+        public class OtherSprites : UnorderedApiResource
         {
             /// <summary>
             /// DreamWorld sprites
@@ -787,7 +811,7 @@ namespace PokeApiNet
             /// <summary>
             /// DreamWorld Pókemon sprites
             /// </summary>
-            public class DreamWorldSprites
+            public class DreamWorldSprites : UnorderedApiResource
             {
                 /// <summary>
                 /// The default depiction of this Pokémon from the front in battle.
@@ -805,7 +829,7 @@ namespace PokeApiNet
             /// <summary>
             /// Home Pókemon sprites
             /// </summary>
-            public class HomeSprites
+            public class HomeSprites : UnorderedApiResource
             {
                 /// <summary>
                 /// The default depiction of this Pokémon from the front in battle.
@@ -835,7 +859,7 @@ namespace PokeApiNet
             /// <summary>
             /// Official Artwork sprites
             /// </summary>
-            public class OfficialArtworkSprites
+            public class OfficialArtworkSprites : UnorderedApiResource
             {
                 /// <summary>
                 /// The default depiction of this Pokémon from the front in battle.
@@ -854,7 +878,7 @@ namespace PokeApiNet
         /// <summary>
         /// Pókemon sprites versioned by game generation
         /// </summary>
-        public class VersionSprites
+        public class VersionSprites : UnorderedApiResource
         {
             /// <summary>
             /// Pókemon sprites for Generation I
@@ -907,7 +931,7 @@ namespace PokeApiNet
             /// <summary>
             /// Pókemon sprites for Generation I
             /// </summary>
-            public class GenerationISprites
+            public class GenerationISprites : UnorderedApiResource
             {
                 /// <summary>
                 /// Pókemon Red-Blue sprites
@@ -923,7 +947,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Red-Blue sprites
                 /// </summary>
-                public class RedBlueSprites
+                public class RedBlueSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -966,7 +990,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Yellow sprites
                 /// </summary>
-                public class YellowSprites
+                public class YellowSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1009,7 +1033,7 @@ namespace PokeApiNet
             /// <summary>
             /// Pókemon sprites for Generation II
             /// </summary>
-            public class GenerationIISprites
+            public class GenerationIISprites : UnorderedApiResource
             {
                 /// <summary>
                 /// Pókemon Crystal sprites
@@ -1029,7 +1053,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Crystal sprites
                 /// </summary>
-                public class CrystalSprites
+                public class CrystalSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1084,7 +1108,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Gold sprites
                 /// </summary>
-                public class GoldSprites
+                public class GoldSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1120,7 +1144,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Silver sprites
                 /// </summary>
-                public class SilverSprites
+                public class SilverSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1157,7 +1181,7 @@ namespace PokeApiNet
             /// <summary>
             /// Pókemon sprites for Generation III
             /// </summary>
-            public class GenerationIIISprites
+            public class GenerationIIISprites : UnorderedApiResource
             {
                 /// <summary>
                 /// Pókemon Emerald sprites
@@ -1180,7 +1204,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Emerald sprites
                 /// </summary>
-                public class EmeraldSprites
+                public class EmeraldSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the front in battle.
@@ -1198,7 +1222,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Firered/Leafgreen sprites
                 /// </summary>
-                public class FireredLeafgreenSprites
+                public class FireredLeafgreenSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1228,7 +1252,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Ruby/Sapphire sprites
                 /// </summary>
-                public class RubySapphireSprites
+                public class RubySapphireSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1259,7 +1283,7 @@ namespace PokeApiNet
             /// <summary>
             /// Pókemon sprites for Generation IV
             /// </summary>
-            public class GenerationIVSprites
+            public class GenerationIVSprites : UnorderedApiResource
             {
                 /// <summary>
                 /// Pókemon Diamond/Pearl sprites
@@ -1281,7 +1305,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Diamond/Pearl sprites
                 /// </summary>
-                public class DiamondPearlSprites
+                public class DiamondPearlSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1335,7 +1359,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Heartgold/Soulsilver sprites
                 /// </summary>
-                public class HeartGoldSoulSilverSprites
+                public class HeartGoldSoulSilverSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1389,7 +1413,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Platinum sprites
                 /// </summary>
-                public class PlatinumSprites
+                public class PlatinumSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the back in battle.
@@ -1444,7 +1468,7 @@ namespace PokeApiNet
             /// <summary>
             /// Pókemon sprites for Generation V
             /// </summary>
-            public class GenerationVSprites
+            public class GenerationVSprites : UnorderedApiResource
             {
                 /// <summary>
                 /// Pókemon Black/White sprites
@@ -1455,7 +1479,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Black/White sprites
                 /// </summary>
-                public class BlackWhiteSprites
+                public class BlackWhiteSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The animated depiction of this Pokémon from the back in battle.
@@ -1513,7 +1537,7 @@ namespace PokeApiNet
                     /// <summary>
                     /// The animated depiction of this Pokémon from the back in battle.
                     /// </summary>
-                    public class AnimatedSprites
+                    public class AnimatedSprites : UnorderedApiResource
                     {
                         /// <summary>
                         /// The default depiction of this Pokémon from the back in battle.
@@ -1569,7 +1593,7 @@ namespace PokeApiNet
             /// <summary>
             /// Pókemon sprites for Generation VI
             /// </summary>
-            public class GenerationVISprites
+            public class GenerationVISprites : UnorderedApiResource
             {
                 /// <summary>
                 /// Pókemon OmegaRuby/AlphaSapphire sprites
@@ -1586,7 +1610,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon OmegaRuby/AlphaSapphire sprites
                 /// </summary>
-                public class OmegaRubyAlphaSapphireSprites
+                public class OmegaRubyAlphaSapphireSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the front in battle.
@@ -1616,7 +1640,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon X/Y sprites
                 /// </summary>
-                public class XYSprites
+                public class XYSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the front in battle.
@@ -1648,12 +1672,12 @@ namespace PokeApiNet
             /// <summary>
             /// Pókemon sprites for Generation VII
             /// </summary>
-            public class GenerationVIISprites
+            public class GenerationVIISprites : UnorderedApiResource
             {
                 /// <summary>
                 /// Pókemon Icons sprites
                 /// </summary>
-                public IconsSprites Icons { get; set; }
+                public GenVIIIconsSprites Icons { get; set; }
 
                 /// <summary>
                 /// Pókemon UltraSun/UltraMoon sprites
@@ -1664,7 +1688,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Icons sprites
                 /// </summary>
-                public class IconsSprites
+                public class GenVIIIconsSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the front in battle.
@@ -1682,7 +1706,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon UltraSun/UltraMoon sprites
                 /// </summary>
-                public class UltraSunUltraMoonSprites
+                public class UltraSunUltraMoonSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the front in battle.
@@ -1713,7 +1737,7 @@ namespace PokeApiNet
             /// <summary>
             /// Pókemon sprites for Generation VIII
             /// </summary>
-            public class GenerationVIIISprites
+            public class GenerationVIIISprites : UnorderedApiResource
             {
                 /// <summary>
                 /// Pókemon Icons sprites
@@ -1723,7 +1747,7 @@ namespace PokeApiNet
                 /// <summary>
                 /// Pókemon Icons sprites
                 /// </summary>
-                public class IconsSprites
+                public class IconsSprites : UnorderedApiResource
                 {
                     /// <summary>
                     /// The default depiction of this Pokémon from the front in battle.
@@ -2331,6 +2355,27 @@ namespace PokeApiNet
         /// The move causing the change.
         /// </summary>
         public NamedApiResource<Move> Move { get; set; }
+        /// <summary>
+        /// Foreign key for Increase list in MoveStatAffectSets.
+        /// </summary>
+        public Guid? IncreaseSetId { get; set; }
+
+        /// <summary>
+        /// Navigation property to the Increase list.
+        /// </summary>
+        [ForeignKey("IncreaseSetId")]
+        public MoveStatAffectSets IncreaseSet { get; set; }
+
+        /// <summary>
+        /// Foreign key for Decrease list in MoveStatAffectSets.
+        /// </summary>
+        public Guid? DecreaseSetId { get; set; }
+
+        /// <summary>
+        /// Navigation property to the Decrease list.
+        /// </summary>
+        [ForeignKey("DecreaseSetId")]
+        public MoveStatAffectSets DecreaseSet { get; set; }
     }
 
     /// <summary>
